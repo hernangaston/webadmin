@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 from .models import Empresa
 
 
 # Create your views here.
-class ViewEmpresa(TemplateView):
+class ViewEmpresa(ListView):
+    template_name="index.html"
     model = Empresa
-    queryset = Empresa.objects.all()

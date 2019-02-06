@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 from .viewsets import EmpresaViewSet
+from .views import ViewEmpresa
 
 
 # Routers provide an easy way of automatically determining the URL conf.
@@ -10,4 +11,5 @@ router.register(r'empresa', EmpresaViewSet)
 
 urlempresa = [
     path('', include(router.urls)),
+    path('index/', ViewEmpresa.as_view()),
 ]
