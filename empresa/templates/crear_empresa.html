@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear{% endblock %}
+{% block content %}
+<div id="app" class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h1 class="text-center mt-3">[[ message ]]</h1>
+            <form action="">
+                <p>
+                    <label for="">Nombre: </label>
+                    <input type="text" v-model="empresa.nombre">
+                </p>
+                <p>
+                    <label for="">Cuit: </label>
+                    <input type="text" v-model="empresa.cuit">
+                </p>
+                <p>
+                    <select name="" id="" v-model="empresa.user">
+                        <option :value="usuario.user" v-for="usuario in usuarios">[[ usuario.nombre ]]</option>
+                    </select>
+                </p>
+               
+            </form>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="button" @click.prevent="createEmpresa">Enviar</button>
+    <p><a class="btn btn-danger" href="/">Volver</a></p>    
+</div>
+{% endblock %}
+{% block extraJS %}
+    <script>
+        var app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#app',
+            data(){
+             return {
+                empresa: {
+                    nombre: '',
+                    cuit: '',
+                    user: ''
+                },
+                usuarios: [],
+                message: 'Crear Empresa',
+                errors: []
+             }
+            },
+            mounted(){
+                axios.get('http://localhost:8000/api/users/')
+                .then((response) => {
+                    this.usuarios = response.data;
+                })
+                .catch((error) => {
+                   console.log(error); 
+                })
+            },
+            methods: {
+                createEmpresa(){
+                    var csrftoken = Cookies.get('csrftoken');
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:8000/api/empresas/',
+                        data: {
+                            user: this.empresa.user,
+                            nombre: this.empresa.nombre,
+                            cuit: this.empresa.cuit
+                        },
+                        //funciona con la descarga de un framework js para django csrftoken 
+                        headers: {"X-CSRFToken": csrftoken}
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        if(response.status === 201){
+                            console.log(response.statusText);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                }
+            }
+        })
+    </script>
+{% endblock %}
+{% block extraCSS %}
+<style>
+#app {
+    background-color: rgb(115, 115, 168);
+}
+#filas {
+    background-color: silver;
+}
+p {
+    margin-top: 1em;
+}
+</style>
+{% endblock %}

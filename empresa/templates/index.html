@@ -5,25 +5,28 @@
 <div id="app" class="container-fluid">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <h1 class="text-center mt-3">Index</h1>
-            <div id="filas" class="row">
-                {% for e in object_list %}                
-                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
-                        <p>{{ e.id }}) Nombre: {{ e.nombre }}</p>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                        <p>Cuit: {{ e.cuit }}</p>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                            <p>Usuario: {{ e.user }}</p>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                        <p>Mensaje: [[ message ]]</p>
-                    </div>
-                {% endfor %}
+            <h1 class="text-center mt-3">Listado de empresas</h1>
+            <div id="filas" class="row" v-for="empresa in empresas">                        
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+                    <p>[[ empresa.user ]]) [[ empresa.nombre ]]</p>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    <p>Cuit: [[ empresa.cuit ]]</p>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    <p>Usuario: [[ empresa.user ]]</p>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">  
+                    <p>
+                       <button class="btn btn-success">Editar</button>
+                       <button class="btn btn-danger">Eliminar</button>
+                    </p>                   
+                </div>
             </div>
         </div>
     </div>
+    <p><a href="create/">Crear empresa</a></p>
+    <p><a href="">Volver</a></p>    
 </div>
 {% endblock %}
 {% block extraJS %}
@@ -32,7 +35,23 @@
             delimiters: ['[[', ']]'],
             el: '#app',
             data: {
-            message: 'Hola Hernan estas usando Vue!'
+                empresas: '',
+                errors: []
+            },
+            mounted: function(){
+                this.getEmpresa()
+            },
+            methods: {
+                getEmpresa(){
+                    axios.get('http://localhost:8000/api/empresas/')
+                    .then((response) => {
+                        this.empresas = response.data;
+                        console.log(this.empresas);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                }
             }
         })
     </script>
