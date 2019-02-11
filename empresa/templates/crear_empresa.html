@@ -24,7 +24,7 @@
             </form>
         </div>
     </div>
-    <button class="btn btn-primary" type="button" @click.prevent="createEmpresa">Enviar</button>
+    <button class="btn btn-primary" type="button" @click.prevent="createEmpresa">Crear</button>
     <p><a class="btn btn-danger" href="/">Volver</a></p>    
 </div>
 {% endblock %}
@@ -38,7 +38,8 @@
                 empresa: {
                     nombre: '',
                     cuit: '',
-                    user: ''
+                    user: '',
+                    id: null
                 },
                 usuarios: [],
                 message: 'Crear Empresa',
@@ -63,7 +64,8 @@
                         data: {
                             user: this.empresa.user,
                             nombre: this.empresa.nombre,
-                            cuit: this.empresa.cuit
+                            cuit: this.empresa.cuit,
+                            id: this.empresa.id
                         },
                         //funciona con la descarga de un framework js para django csrftoken 
                         headers: {"X-CSRFToken": csrftoken}
