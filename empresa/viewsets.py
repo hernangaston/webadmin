@@ -3,10 +3,10 @@ from .models import Empresa, Usuario
 from .serializers import EmpresaSerializer, UserSerializer
 
 # ViewSets define the view behavior.
-class EmpresaViewSet(viewsets.ModelViewSet):
+class EmpresasViewSet(viewsets.ModelViewSet):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
+class UsersViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UserSerializer

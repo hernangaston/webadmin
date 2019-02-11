@@ -19,5 +19,5 @@ from empresa.urls import urlempresa
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(urlempresa)),
+    path('api/', include(urlempresa)),
 ]
