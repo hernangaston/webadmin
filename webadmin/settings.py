@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',
     'empresa',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -123,4 +123,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = 'localhost:8000'
+CORS_ORIGIN_WHITELIST = 'localhost:8080'
