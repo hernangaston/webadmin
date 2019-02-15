@@ -9,8 +9,8 @@
                 placeholder="Nombre de la empresa"
                 @input="$v.empresa.$touch">
             </b-form-input>
-            <b-form-invalid-feedback id="empresaInfo" v-if="$v.empresa.$dirty">
-                Este campo es requerido y debe tener una logitud minima de 4
+            <b-form-invalid-feedback class="mb-2" id="empresaInfo" v-if="$v.empresa.$dirty">
+                Este campo es requerido y debe tener una logitud minima de 4 caractesres alfanumericos
             </b-form-invalid-feedback>
             <b-form-input class="mb-3"
                 autocomplete="off"
@@ -20,8 +20,8 @@
                 placeholder="Cuit de la empresa"
                 @input="$v.empresa.$touch">
             </b-form-input>
-            <b-form-invalid-feedback id="empresaInfo" v-if="$v.empresa.$dirty">
-                Este campo es requerido y debe tener una logitud minima de 13
+            <b-form-invalid-feedback class="mb-1" id="empresaInfo" v-if="$v.empresa.$dirty">
+                Este campo es requerido y debe tener una logitud minima de 13 caracteres numericos
             </b-form-invalid-feedback>
         </b-form-group>
         <b-button type="submit" variant="primary" :disabled="$v.empresa.$invalid">
