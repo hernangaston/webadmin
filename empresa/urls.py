@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from .viewsets import EmpresasViewSet, UsersViewSet
+from .viewsets import EmpresasViewSet, UsersViewSet, UserAuthViewSet
 
 
 
@@ -8,6 +8,8 @@ from .viewsets import EmpresasViewSet, UsersViewSet
 router = routers.DefaultRouter()
 router.register(r'empresas', EmpresasViewSet)
 router.register(r'users', UsersViewSet)
+router.register(r'auth', UserAuthViewSet)
+
 
 urlempresa = [
     path('', include(router.urls)),
