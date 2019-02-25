@@ -7,6 +7,7 @@
                 type="text"
                 autocomplete="off"
                 v-model="user.username"
+                :state="validateState('username')"
                 name="username"
                 placeholder="Introduce username"
                 ></b-form-input>
@@ -19,6 +20,7 @@
                 type="email"
                 autocomplete="off"
                 v-model="user.email"
+                :state="validateState('email')"
                 v-validate="'required|email'"
                 name="email"
                 placeholder="Introduce email"
@@ -30,6 +32,7 @@
                 type="password"
                 autocomplete="off"
                 v-model="user.password"
+                :state="validateState('password')"
                 v-validate="'required|min:6'"
                 name="password"
                 placeholder="Introduce password"
@@ -48,8 +51,9 @@
 <script>
 import validateMixin from '@/mixins/validation'
 export default {
+    inject: ['$validator'],
+    mixins: [validateMixin],
     props: {
-        mixins: [validateMixin],
         user: {
             type: Object,
             required: true,
