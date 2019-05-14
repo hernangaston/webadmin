@@ -1,5 +1,6 @@
 from django.db import models
-from transportista import Transportista
+from transportista.models import Transportista
+
 
 class Chofer(models.Model):
     transportista = models.ForeignKey(Transportista, on_delete=models.CASCADE, null=True)
@@ -12,7 +13,7 @@ class Chofer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.nombre, self.apellido
-    #funcion para devolver el nombre de usuario que se agrega al serializer
-    #def nombreUser(self):
+        return "%s %s" % (self.apellido, self.nombre)
+    # funcion para devolver el nombre de usuario que se agrega al serializer
+    # def nombreUser(self):
       #  return self.user.nombre

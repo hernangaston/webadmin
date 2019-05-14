@@ -1,5 +1,5 @@
 from django.db import models
-from destinatario import Destinatario
+from destinatario.models import Destinatario
 
 class Destino(models.Model):
     destinatario = models.ForeignKey(Destinatario, on_delete=models.CASCADE, null=True)

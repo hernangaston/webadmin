@@ -15,9 +15,41 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 from empresa.urls import urlempresa
+from cartadeporte.urls import urlcp
+from intermediario.urls import urlintermediarios
+from remitentecomercial.urls import urlremitentecomercial
+from intermediarioflete.urls import urlintermediarioflete
+from corredor.urls import urlcorredor
+from mat.urls import urlmat
+from entregador.urls import urlentregador
+from destinatario.urls import urldestinatario
+from destino.urls import urldestino
+from transportista.urls import urltransportista
+from chofer.urls import urlchofer
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(urlempresa)),
+    path('empresa/', include(urlempresa)),
+    path('cp/', include(urlcp)),
+    path('intermediarios/', include(urlintermediarios)),
+    path('rem_comercial/', include(urlremitentecomercial)),
+    path('corredor/', include(urlcorredor)),
+    path('mat/', include(urlmat)),
+    path('entregador/', include(urlentregador)),
+    path('destinatario/', include(urldestinatario)),
+    path('destino/', include(urldestino)),
+    path('intermediarioflete/', include(urlintermediarioflete)),
+    path('transportista/', include(urltransportista)),
+    path('chofer/', include(urlchofer))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

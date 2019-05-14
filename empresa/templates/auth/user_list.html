@@ -1,14 +1,16 @@
 {% extends "index.html" %}
 
-
+{% block title %}
+    Lista Users
+{% endblock %}
+{% block header %}
+    <h1>CP web</h1>
+{% endblock %}
 {% block content %}
-
-<h1>Users</h1>
-
-{% for user in object_list %}
-    <p>Id: {{ user.id }} - Username: {{ user.username }} - Email: {{ user.email }}</p>
-{% empty %}
-    <p>No users yet.</p>
-{% endfor %}
-
+    <h2>Users</h2>
+    {% for user in object_list %}
+        <p>Id: {{ user.id }} - Username: {{ user.username }} - Email: {{ user.email }}</p>
+    {% empty %}
+        <p>No users yet.</p>
+    {% endfor %}
 {% endblock %}

@@ -8,7 +8,7 @@ from .views import UserListView
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'empresas', EmpresasViewSet)
-router.register(r'auth', UserAuthViewSet)
+router.register(r'users', UserAuthViewSet)
 
 
 urlempresa = [

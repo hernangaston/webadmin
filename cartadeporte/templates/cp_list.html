@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+{% block title %}
+    Lista de Cp para imprimir
+{% endblock %}
+{% block content %}
+    <div id="app" class="container">
+        <h1> [[ title ]] </h1>
+        <h2>[[ content ]]</h2>  
+        {% for cp in object_list %}
+            <p>{{cp.fecha }} - {{ cp.numero }} - {{ cp.pk }} - {{ cp.ctg }} - {{ cp.destino }} - {{ cp.destinatario }} - {{ cp.localidad_procedencia }}
+                <a class="btn btn-outline-danger" href="generarpdf/{{ cp.pk }}" title="">Imprimir PDF</a>
+            </p>
+        {% endfor %}      
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    new Vue({
+        el: "#app",
+        delimiters: ["[[", "]]"],     
+        data() {
+            return {
+                title: "Lista CP",
+                content: "Contenido"
+            }
+        },
+    })
+</script>
+{% endblock %}
