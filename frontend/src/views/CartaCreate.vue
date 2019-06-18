@@ -52,6 +52,7 @@ export default {
                 tarifa_referencia: '',
                 declaracion_juarada_nombre: '',
                 declaracion_juarada_dni: '',
+                docfile: ''
             }
         }
     },

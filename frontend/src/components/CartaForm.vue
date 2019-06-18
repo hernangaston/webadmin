@@ -428,13 +428,15 @@
         </b-row>   
         <b-row class="mt-3 mb-3">
             <b-col sm="6">
-                <input type="file" ref="fileInput" @change="selectedFile"/> 
+                <b-form-file v-model="carta.docfile" @change="selectedFile" plain></b-form-file>  
             </b-col>
             <b-col>
-                <div >Selected file: {{ carta.docfile ? carta.docfile.name : '' }}</div>
+                <div >Archivo elegido: {{ carta.docfile ? carta.docfile.name : '' }}</div>
             </b-col>
             <b-col>
-                <button @click="uploadFile">Submit file</button>
+                <b-button @click="uploadFile">
+                    Subir archivo
+                </b-button>
             </b-col>
         </b-row> 
         
@@ -454,9 +456,9 @@ import DatePicker from 'vue2-datepicker';
 import { validationMixin } from 'vuelidate';
 import { required, minLength } from 'vuelidate/lib/validators';
 import Vue from 'vue';
-
 import Cookies from 'js-cookie';
-
+const csrftoken = Cookies.get("csrftoken");
+console.log(csrftoken);
 export default {
     components: { DatePicker },
     mixins: [validationMixin],
@@ -499,30 +501,25 @@ export default {
         this.fetchTransportista();
     },
     methods: {
-        selectedFile() {
-            this.fileSelected = this.$refs.fileInput.files[0];
-            this.carta.docfile = this.$refs.fileInput.files[0];
+        selectedFile(event) {            
+            this.fileSelected = event.target.files[0];
+            //this.fileSelected = this.carta.docfile;
+            //this.carta.docfile = this.$refs.fileInput.files[0];
             console.log(this.fileSelected.name);
         },
         uploadFile(){
-            event.preventDefault();
-            console.log("Uploading");
-            var csrftoken = Cookies.get("csrftoken");
-            console.log("token: "+ csrftoken);
-            var data = new FormData();
-            data.append('file', this.fileSelected);
-            console.log(data);
+            const fd = this.fileSelected  
+            console.log(csrftoken);          
             Vue.axios({
-                method: "PUT",
-                url: "cp/fileupload/"+this.fileSelected.name,
+                method: 'POST',
+                url:'cp/upload/',
                 headers: {
-                    "X-CSRFToken": csrftoken,
+                "X-CSRFToken": csrftoken
                 },
-                data
+                fd
             })
-            .then((res) => {
-               return res.data;
-            })
+            .then(res => console.log("Respuesta:", res.data))
+            .catch(err => console.log("Error:", err))
         },
        async fetchIntermediarios(){         
             const response = await Vue.axios({

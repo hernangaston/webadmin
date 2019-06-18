@@ -1,20 +1,7 @@
-from rest_framework import status
-from rest_framework.generics import ListAPIView, RetrieveAPIView
-from rest_framework.permissions import AllowAny
-from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.parsers import FileUploadParser, MultiPartParser
-from rest_framework.exceptions import ParseError
 
-
-
-from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import UpdateView
 from .models import CartaDePorte
-from .renderers import CartaDePorteJSONRenderer
-from .serializers import CartaDePorteSerializer, CartaDePorteListSerializer
 
 from django.http import HttpResponse
 import os
@@ -24,26 +11,11 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib.colors import Color, red
 
-
-class CartaDePorteListApiView(ListAPIView):
-    model = CartaDePorte
-    queryset = CartaDePorte.objects.all()
-    permissions_classes = (AllowAny, )
-    renderer_classes = (CartaDePorteJSONRenderer, )
-    serializer_class = CartaDePorteListSerializer
-
-
-class CartaDePorteRetrieveApiView(RetrieveAPIView):
-    permissions_classes = (AllowAny, )
-    renderer_classes = (CartaDePorteJSONRenderer, )
-    serializer_class = CartaDePorteSerializer
-
-    def retrieve(self, request, cartadeporte, *args, **kwargs):
-        cartadeporte = CartaDePorte.objects.get(id=cartadeporte.id)
-        serializer = self.serializer_class(cartadeporte)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
+from .serializers import CartaDePorteSerializer
 
 class CartaDePorteListView(ListView):
     template_name = 'cp_list.html'
@@ -53,6 +25,28 @@ class CartaDePorteListView(ListView):
         context = super().get_context_data(**kwargs)
         return context
 
+class CartaDePorteView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    #queryset = CartaDePorte.objects.all()
+    def post(self, request, *args, **kwargs):
+        file_serializer = CartaDePorteSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#-------------CLASE PARA SUBIR EL PDF-------------------------------------------
+from django.shortcuts import render
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
+def simple_upload(request):
+    if request.method == 'POST' and request.FILES['docfile']:
+        myfile = request.FILES['docfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
 
 # ------CLASE PARA GENERAR EL PDF ----------------------------------------------
 class GeneratePDF(UpdateView):
@@ -63,7 +57,7 @@ class GeneratePDF(UpdateView):
         # success_url = reverse_lazy('pacientes:pacientes')
 
     def get(self, request, *args, **kwargs):
-        cp = CartaDePorte.objects.get(pk=self.kwargs['pk'])
+        cp = CartaDePorte.objects.get(numero=self.kwargs['numero'])
         pdfCp(cp)
         # Create the HttpResponse object with the appropriate PDF headers.
         # with open("static/"+paciente.nombre+paciente.apellido+".pdf", "rb") as pdf:
@@ -74,33 +68,6 @@ class GeneratePDF(UpdateView):
         pdf.closed
         os.remove("media/cp_nuevas/" + cp.numero + ".pdf")
         return response
-# ------Subir el archivo que viene por post--------------------
-
-
-class UploadFile(APIView):
-    parser_class = (FileUploadParser, MultiPartParser)
-
-    def put(self, request, filename, format=None):
-        print(request.data)
-        pdf_recibido = request.data['file']
-        nuevoPdf = CartaDePorte()
-        nuevoPdf.docfile = pdf_recibido
-        nuevoPdf.save()
-        return Response(status=204)
-
-class CartaDePorteCreate(APIView):
-    parser_class = (FileUploadParser, MultiPartParser)
-
-    def post(self, request):
-        data_recived = request.data
-        print(data_recived)
-        print(data_recived['docfile'])
-        data = CartaDePorte()
-        data.save()
-        return Response(status=200)
-
-
-
 
 # -------funcion para rellenar la cp preimpresa ------------------------------
 def pdfCp(data):

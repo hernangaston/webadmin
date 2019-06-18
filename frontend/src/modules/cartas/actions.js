@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Cookies from 'js-cookie';
+const csrftoken = Cookies.get("csrftoken");
+
 
 export async function fetchCartas({ commit }){
     try {
@@ -19,15 +21,19 @@ export async function addCarta({ commit }, carta){
     let full =  carta.fecha.getFullYear().toString() + 
     "-" + (carta.fecha.getMonth()+1).toString() + "-"
     + carta.fecha.getDate().toString();  
-    carta.fetcha = full;  
-    var csrftoken = Cookies.get("csrftoken");
-    
+    carta.fecha = full;  
+    //var cp = new FormData();
+    //cp.append(carta.numero, carta)
+    //console.log(cp)
     try {
        await Vue.axios({
             method: 'POST',
-            url:'cp/api/cartas/',
-            data:{
-                'fecha': full,
+            url:'cp/subir/',
+            headers: {
+                "content-type": "multipart/form-data"
+            },
+            data: {
+                'fecha': carta.fecha,
                 'numero': carta.numero,
                 'ctg': carta.ctg,
                 'renspa': carta.renspa,
@@ -61,9 +67,9 @@ export async function addCarta({ commit }, carta){
                 'tarifa': carta.tarifa,
                 'tarifa_referencia': carta.tarifa,
                 'declaracion_juarada_nombre': carta.declaracion_juarada_nombre,
-                'declaracion_juarada_dni': carta.declaracion_juarada_dni,
-             }
-        });
+                'declaracion_juarada_dni': carta.declaracion_juarada_dni
+            }            
+        });        
     } catch (error) {        
         commit('cartasError', error.message);
     }finally{

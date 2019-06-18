@@ -27,6 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+)
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -146,8 +153,3 @@ MEDIA_URL = '/media/'
 #    )
 #}
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8080',
-)
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_ALLOW_HEADERS = True

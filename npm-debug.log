@@ -1,11 +1,11 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'run', 'serve' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'run', 'dev' ]
 2 info using npm@3.5.2
 3 info using node@v8.10.0
 4 verbose stack Error: ENOENT: no such file or directory, open '/home/hernan/Documentos/proyectos/webadmin/package.json'
 5 verbose cwd /home/hernan/Documentos/proyectos/webadmin
-6 error Linux 4.15.0-48-generic
-7 error argv "/usr/bin/node" "/usr/bin/npm" "run" "serve"
+6 error Linux 4.15.0-50-generic
+7 error argv "/usr/bin/node" "/usr/bin/npm" "run" "dev"
 8 error node v8.10.0
 9 error npm  v3.5.2
 10 error path /home/hernan/Documentos/proyectos/webadmin/package.json

@@ -1,6 +1,9 @@
 <template>
     <li>
-    <b-row class="mb-2">       
+    <b-row class="mb-2">              
+        <b-col>{{ carta }}</b-col>
+    </b-row>    
+    <b-row class="mb-2">              
         <b-col cols="2">{{ carta.fecha }}</b-col>
         <b-col cols="2">{{ carta.numero }}</b-col>
         <b-col cols="1" class="ml-1">{{ carta.conforme }}</b-col>
@@ -19,7 +22,7 @@
             Eliminar
             </b-button>
             <b-link
-                :href="'http://localhost:8000/cp/cartaslist/generarpdf/'+ carta.id"
+                :href="'http://localhost:8000/cp/cartaslist/generarpdf/'+ carta.numero"
                 class="ml-2"
             >
             Download
