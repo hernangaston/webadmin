@@ -2,12 +2,12 @@ from django.urls import path, include
 from django.conf.urls import url
 from rest_framework import routers
 from .viewsets import CartaDePorteViewSet
-from .views import CartaDePorteListApiView, CartaDePorteRetrieveApiView, CartaDePorteListView, GeneratePDF, UploadFile, CartaDePorteCreate
+from .views import CartaDePorteListApiView, CartaDePorteRetrieveApiView, CartaDePorteListView, GeneratePDF, UploadFile, CartaDePorteCreate, CartaViewSet
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'cartas', CartaDePorteViewSet)
-
+router.register(r'letters', CartaViewSet)
 
 app_name = 'cartadeporte'
 urlcp = [

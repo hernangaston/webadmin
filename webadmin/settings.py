@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'webpack_loader',
     'rest_framework',
     'corsheaders',
     'empresa',
@@ -151,3 +152,25 @@ CORS_ORIGIN_WHITELIST = (
 )
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_ALLOW_HEADERS = True
+
+
+#webpack loader
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': '',
+        'STATS_FILE': os.path.join(BASE_DIR, 'frontend/webpack-stats.json'),
+        'POLL_INTERVALL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': ['.+/.hot-update.js', '.+/.map']
+    }
+}
+
+#rest framework
+#REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    #'DEFAULT_PERMISSION_CLASSES': [
+    #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    #]
+#}

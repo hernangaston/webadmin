@@ -18,6 +18,7 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 
 from empresa.urls import urlempresa
@@ -47,7 +48,8 @@ urlpatterns = [
     path('destino/', include(urldestino)),
     path('intermediarioflete/', include(urlintermediarioflete)),
     path('transportista/', include(urltransportista)),
-    path('chofer/', include(urlchofer))
+    path('chofer/', include(urlchofer)),
+    path('', TemplateView.as_view(template_name="index2.html"), name='home')
 ]
 
 if settings.DEBUG:

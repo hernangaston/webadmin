@@ -23,7 +23,14 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib.colors import Color, red
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
+class CartaViewSet(viewsets.ModelViewSet):
+    permissions_classes = (IsAuthenticated,)
+    queryset = CartaDePorte.objects.all()
+    serializer_class = CartaDePorteSerializer
+    lookup_field = 'id'
 
 class CartaDePorteListApiView(ListAPIView):
     model = CartaDePorte
