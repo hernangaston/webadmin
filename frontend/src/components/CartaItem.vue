@@ -30,35 +30,12 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex';
 
 export default {
     props: {
         carta: {
             type: Object,
             required: true
-        }
-    }
-    ,
-    data () {
-       return {
-           url: ''
-       }
-    },
-    methods: {
-        ...mapActions({
-            _removeCarta: 'cartas/removeCarta'
-        }),
-        ...mapMutations('cartas', ['setCarta']),
-        goToUpdateCarta(){
-            this.setCarta(this.carta);
-            this.$router.push({
-                name: 'cartas-update',
-                params: {id: this.carta.id}
-            })
-        },
-        removeCarta(){
-            this._removeCarta(this.carta.id)
         }
     }
 }

@@ -26,6 +26,9 @@ from reportlab.lib.colors import Color, red
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
+class IndexView(TemplateView):
+    template_name = "index.html"
+
 class CartaViewSet(viewsets.ModelViewSet):
     permissions_classes = (IsAuthenticated,)
     queryset = CartaDePorte.objects.all()
