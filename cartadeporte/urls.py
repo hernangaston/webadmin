@@ -8,12 +8,10 @@ from .views import CartaDePorteListApiView, CartaDePorteRetrieveApiView, CartaDe
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'cartas', CartaDePorteViewSet)
-router.register(r'letters', CartaViewSet)
 
 app_name = 'cartadeporte'
 urlcp = [
     path('api/', include(router.urls)),
-    path('api/listacartas/', CartaDePorteListApiView.as_view()),
     path('carta/<pk>/', CartaDePorteRetrieveApiView.as_view()),
     path('cartaslist/', CartaDePorteListView.as_view(), name="cplist"),
     path('cartaslist/generarpdf/<int:pk>', GeneratePDF.as_view(), name="pdfcp"),
