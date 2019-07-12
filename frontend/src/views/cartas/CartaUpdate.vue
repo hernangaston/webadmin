@@ -11,7 +11,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import CartaForm from '@/components/CartaForm';
+import CartaForm from '@/components/cartas/CartaForm';
 
 export default {
     components: {

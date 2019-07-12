@@ -26,6 +26,19 @@ from reportlab.lib.colors import Color, red
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
+from corredor.models import Corredor
+from mat.models import MercadoATermino
+from entregador.models import Entregador
+from destinatario.models import Destinatario
+from destino.models import Destino
+from intermediarioflete.models import IntermediarioFlete
+from transportista.models import Transportista
+from chofer.models import Chofer
+from intermediario.models import Intermediario
+from remitentecomercial.models import RemitenteComercial
+
+
+
 class IndexView(TemplateView):
     template_name = "index.html"
 
@@ -90,11 +103,87 @@ class GeneratePDF(UpdateView):
 class UploadFile(APIView):
     parser_class = (FileUploadParser, MultiPartParser)
 
-    def put(self, request, filename, format=None):
+    def post(self, request, filename, format=None):
         print(request.data)
-        pdf_recibido = request.data['file']
+        #pdf_recibido = request.data['file']
+
         nuevoPdf = CartaDePorte()
-        nuevoPdf.docfile = pdf_recibido
+
+        nuevoPdf.numero = request.data['numero']
+        nuevoPdf.fecha = request.data['fecha']
+        nuevoPdf.ctg = request.data['ctg']
+        nuevoPdf.renspa = request.data['renspa']
+        if request.data['intermediario']:
+            nuevoPdf.intermediario = Intermediario.objects.get(pk=request.data['intermediario'])
+        if request.data['remitente_comercial']:
+            nuevoPdf.remitente_comercial = RemitenteComercial.objects.get(pk=request.data['remitente_comercial'])
+        if request.data['conforme'] == 'true':
+            nuevoPdf.conforme = True
+        else:
+            nuevoPdf.conforme = False
+        if request.data['corredor_comprador']:
+            nuevoPdf.corredor_comprador = Corredor.objects.get(pk=request.data['corredor_comprador'])
+        if request.data['mercado_a_termino']:
+            nuevoPdf.mercado_a_termino = MercadoATermino.objects.get(pk=request.data['mercado_a_termino'])
+        if request.data['corredor_vendedor']:
+            nuevoPdf.corredor_vendedor = Corredor.objects.get(pk=request.data['corredor_vendedor'])
+        if request.data['entregador']:
+            nuevoPdf.entregador = Entregador.objects.get(pk=request.data['entregador'])
+        if request.data['destinatario']:
+            nuevoPdf.destinatario = Destinatario.objects.get(pk=request.data['destinatario'])
+        if request.data['destino']:
+            nuevoPdf.destino = Destino.objects.get(pk=request.data['destino'])
+        if request.data['intermediario_flete']:
+            nuevoPdf.intermediario_flete = IntermediarioFlete.objects.get(pk=request.data['intermediario_flete'])
+        if request.data['transportista']:
+            nuevoPdf.transportista = Transportista.objects.get(pk=request.data['transportista'])
+        if request.data['chofer']:
+            nuevoPdf.chofer = Chofer.objects.get(pk=request.data['chofer'])
+        nuevoPdf.grano = request.data['grano']
+        if request.data['tipo'] != '':
+            nuevoPdf.tipo = request.data['tipo']
+        else:
+            nuevoPdf.tipo = '' 
+        nuevoPdf.cosecha = request.data['cosecha']
+        if request.data['contrato'] != '':
+            nuevoPdf.contrato = request.data['contrato']
+        else:
+            nuevoPdf.contrato = ''
+        if request.data['pesada_en_destino'] == 'true':
+            nuevoPdf.pesada_en_destino = True
+        else:
+            nuevoPdf.pesada_en_destino = False
+        if request.data['kgs_estimados'] == 'true':
+            nuevoPdf.kgs_estimados = True
+        else:
+            nuevoPdf.kgs_estimados = False
+        if request.data['declaracion_calidad'] == 'true':
+            nuevoPdf.declaracion_calidad = True
+        else:
+            nuevoPdf.declaracion_calidad = False
+        if request.data['condicional'] == 'true':
+            nuevoPdf.condicional = True
+        else:
+            nuevoPdf.condicional = False
+        nuevoPdf.peso_bruto = request.data['peso_bruto']
+        nuevoPdf.peso_tara = request.data['peso_tara']
+        nuevoPdf.peso_neto = request.data['peso_neto']
+        if request.data['observaciones'] != '':
+            nuevoPdf.observaciones = request.data['observaciones']
+        else:
+            nuevoPdf.observaciones = ''
+        nuevoPdf.direccion_procedencia = request.data['direccion_procedencia']
+        nuevoPdf.localidad_procedencia = request.data['localidad_procedencia']
+        nuevoPdf.provincia_procedencia = request.data['provincia_procedencia']
+        nuevoPdf.kilometros = request.data['kilometros']
+        nuevoPdf.tarifa = request.data['tarifa']
+        nuevoPdf.tarifa_referencia = request.data['tarifa']
+        nuevoPdf.declaracion_juarada_nombre = request.data['declaracion_juarada_nombre']
+        nuevoPdf.declaracion_juarada_dni = request.data['declaracion_juarada_dni']
+        nuevoPdf.docfile = request.data['docfile']
+        #nuevoPdf.docfile = pdf_recibido
+
+
         nuevoPdf.save()
         return Response(status=204)
 

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Cartas from '@/views/Cartas'
-import CartaCreate from '@/views/CartaCreate'
+import Cartas from '@/views/cartas/Cartas'
+import CartaCreate from '@/views/cartas/CartaCreate'
 
 Vue.use(Router)
 

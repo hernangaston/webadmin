@@ -170,11 +170,11 @@
       <b-col sm="2">
         <div class="mb-1">
           Intermediario Flete:
-          <strong>{{ carta.interm_flete }}</strong>
+          <strong>{{ carta.intermediario_flete }}</strong>
         </div>
       </b-col>
       <b-col sm="10">
-        <b-form-select v-model="carta.interm_flete" :options="optionsinterm_flete" class="mb-1">
+        <b-form-select v-model="carta.intermediario_flete" :options="optionsinterm_flete" class="mb-1">
           <option :value="null" disabled>-- Please select an option --</option>
         </b-form-select>
       </b-col>
@@ -505,19 +505,16 @@ export default {
     selectedFile () {
       this.fileSelected = this.$refs.fileInput.files[0]
       this.carta.docfile = this.$refs.fileInput.files[0]
-      console.log(this.fileSelected.name)
     },
     uploadFile () {
       event.preventDefault()
-      var csrftoken = Cookies.get('csrftoken')
       var data = new FormData()
-      data.append('file', this.fileSelected)
+      data.append('file', this.carta.docfile)
+      //console.log(data['cp'])
+      //console.log(data['file'])
       Vue.axios({
-        method: 'PUT',
-        url: 'cp/fileupload/' + this.fileSelected.name,
-        headers: {
-          'X-CSRFToken': csrftoken
-        },
+        method: 'POST',
+        url: 'cp/fileupload/' + this.carta.docfile.name,
         data
       }).then(res => {
         return res.data
