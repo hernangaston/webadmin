@@ -13,4 +13,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.log
-webadmin/
+/webadmin/
+settings.py
+db.sqlite3
