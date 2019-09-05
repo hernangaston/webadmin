@@ -442,17 +442,14 @@
       <b-col>
         <div>Selected file: {{ carta.docfile ? carta.docfile.name : '' }}</div>
       </b-col>
-      <b-col>
-        <button @click="uploadFile">Submit file</button>
-      </b-col>
     </b-row>
-
     <b-row class="mb-5">
       <b-button type="submit" variant="primary" :disabled="$v.carta.$invalid">{{ cartaSubmit }}</b-button>
     </b-row>
   </b-form>
 </template>
 <script>
+
 import DatePicker from 'vue2-datepicker'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
@@ -510,8 +507,6 @@ export default {
       event.preventDefault()
       var data = new FormData()
       data.append('file', this.carta.docfile)
-      //console.log(data['cp'])
-      //console.log(data['file'])
       Vue.axios({
         method: 'POST',
         url: 'cp/fileupload/' + this.carta.docfile.name,

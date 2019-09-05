@@ -6,9 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.exceptions import ParseError
-
-
-
+from django.urls import reverse
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -36,8 +34,8 @@ from transportista.models import Transportista
 from chofer.models import Chofer
 from intermediario.models import Intermediario
 from remitentecomercial.models import RemitenteComercial
-
-
+from empresa.models import Empresa
+from django.contrib.auth.models import User
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -76,7 +74,6 @@ class CartaDePorteListView(ListView):
         context = super().get_context_data(**kwargs)
         return context
 
-
 # ------CLASE PARA GENERAR EL PDF ----------------------------------------------
 class GeneratePDF(UpdateView):
         # queryset = PacienteIapos.objects.all()
@@ -99,16 +96,11 @@ class GeneratePDF(UpdateView):
         return response
 # ------Subir el archivo que viene por post--------------------
 
-
 class UploadFile(APIView):
     parser_class = (FileUploadParser, MultiPartParser)
 
     def post(self, request, filename, format=None):
-        print(request.data)
-        #pdf_recibido = request.data['file']
-
         nuevoPdf = CartaDePorte()
-
         nuevoPdf.numero = request.data['numero']
         nuevoPdf.fecha = request.data['fecha']
         nuevoPdf.ctg = request.data['ctg']

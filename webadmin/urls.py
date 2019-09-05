@@ -14,29 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-
-from django.conf import settings
 from django.conf.urls.static import static
-
-
-from empresa.urls import urlempresa
+from django.conf import settings
+from django.urls import path, include
 from cartadeporte.urls import urlcp
 from intermediario.urls import urlintermediarios
 from remitentecomercial.urls import urlremitentecomercial
-from intermediarioflete.urls import urlintermediarioflete
 from corredor.urls import urlcorredor
 from mat.urls import urlmat
 from entregador.urls import urlentregador
 from destinatario.urls import urldestinatario
 from destino.urls import urldestino
+from intermediarioflete.urls import urlintermediarioflete
 from transportista.urls import urltransportista
 from chofer.urls import urlchofer
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('empresa/', include(urlempresa)),
     path('cp/', include(urlcp)),
     path('intermediarios/', include(urlintermediarios)),
     path('rem_comercial/', include(urlremitentecomercial)),
@@ -47,9 +41,5 @@ urlpatterns = [
     path('destino/', include(urldestino)),
     path('intermediarioflete/', include(urlintermediarioflete)),
     path('transportista/', include(urltransportista)),
-    path('chofer/', include(urlchofer))
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT, show_indexes=True)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('chofer/', include(urlchofer)),
+] + static('/static/', document_root=settings.STATIC_ROOT, show_indexes=True)

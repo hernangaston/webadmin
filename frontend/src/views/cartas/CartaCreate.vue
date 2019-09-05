@@ -49,7 +49,6 @@ export default {
                 provincia_procedencia: '',
                 kilometros: '',
                 tarifa: '',
-                tarifa_referencia: '',
                 declaracion_juarada_nombre: '',
                 declaracion_juarada_dni: '',
                 docfile: ''
@@ -97,7 +96,6 @@ export default {
             data.append('provincia_procedencia', this.carta.provincia_procedencia)
             data.append('kilometros', this.carta.kilometros)
             data.append('tarifa', this.carta.tarifa)
-            data.append('tarifa_referencia', this.carta.tarifa_referencia)
             data.append('declaracion_juarada_nombre', this.carta.declaracion_juarada_nombre)
             data.append('declaracion_juarada_dni', this.carta.declaracion_juarada_dni)
             data.append('docfile', this.carta.docfile)
